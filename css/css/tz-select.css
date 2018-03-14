@@ -1,0 +1,92 @@
+/* 全选单选样式 start  */
+.tz-checkbox{
+    background: url(../images/ico.png) no-repeat 0px -370px;
+    width: 30px;
+    height: 30px;
+   /* position: absolute;
+    left: 66px;
+    top: 16px;*/
+    display: block;
+}
+
+.tz-singlebox-checked{
+	background-position: 0px -420px;
+}
+
+.tz-checked-all {
+    display: inline-block;
+    width: 34px;
+    height: 30px;
+    cursor: pointer;
+    background: url('../images/ico.png') no-repeat 10px -260px;
+    border-right: 1px #d7d9e0 solid;
+    float: left;
+}
+
+.tz-all-checked{
+    background-position: 10px -310px;
+}
+/* end 全选单选样式  */
+
+
+/* 提示小标签 start  */
+.tz-full-tip-box{
+    position: fixed;
+    top: -32px;
+    z-index: 1001;
+    text-align: center;
+    width: 400px;
+    left: 50%;
+    margin-left: -200px;
+    transition:.5s;
+}
+.tz-full-tip {
+    display: inline-block;
+    border-radius: 0 0 3px 3px;
+    background: #fff;
+}
+.tz-full-tip .inner {
+    position: relative;
+    display: inline-block;
+}
+.tz-full-tip .ico {
+    position: absolute;
+    left: 38px;
+    top: 0;
+    width: 25px;
+    height: 32px;
+    background: url(../img/full-tip-r20131224.png) no-repeat -100px -100px;
+}
+.tz-full-tip .text {
+    display: inline-block;
+    padding: 8px 38px 10px 63px;
+    color: #fff;
+    line-height: 14px;
+    font-size: 12px;
+    text-align: left;
+}
+/* 错误的提示 */
+.err,.ok{
+    top:0;
+}
+.err .tz-full-tip{
+    background: #f49918;
+}
+.err .ico {
+    background-position: 0 -109px;
+}
+/* 正确的提示 */
+.ok .tz-full-tip {
+    background: #75bc0f;
+}
+.ok .ico {
+    background-position: 0 -9px;
+}
+/* 提醒  */
+.warn .tz-full-tip {
+    background: #f49918;
+}
+.warn .ico {
+    background-position: 0 -59px;
+}
+/* end 提示小标签  */

@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>cool 前端组件</title>
+		<meta name="description" content="">
+		
+		<link rel="stylesheet" type="text/css" href="css/css/tz-page.css"/>
+		<link rel="stylesheet" href="css/css/sg.css" />
+		<link rel="stylesheet" type="text/css" href="tree/tm_tree.css"/>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="tree/tm_tree.js" ></script>
+		<script type="text/javascript" src="js/sgutil.js"></script>
+		<script type="text/javascript" src="js/sg.js"></script>
+		<script type="text/javascript" src="js/tz_page.js" ></script>
+		<script type="text/javascript" src="js/date/WdatePicker.js" ></script>
+		
+		<style type="text/css">
+			img{width:569px;height:229px;border:none;}
+			.main{
+				width:100%;
+				height: auto;
+				margin: 20px auto;
+			}
+			
+			/* pre-data start */
+			.predata{height:auto;list-style-type: none;float:left;width:350px;}
+			.predata li{height:25px;margin-bottom: 15px;line-height: 25px;}
+			.predata li a span{display: inline-block;width: 80px;height:30px;text-align:right;margin-right: 10px;}
+			.predata li a input{width: 250px;height:25px;text-indent: 1em;} 
+			
+			#trace_tab{
+				width: 828px;
+				height: 600px;
+				border: 1px solid #078FF8;
+			}
+			#trace_ul ul{
+				height: 40px;
+				background: #078FF8;
+			}
+			#trace_ul ul li{
+				width: 100px;
+				height: 40px;
+				background: #078FF8;
+				color: #FFFFFF;
+				float: left;
+				border-right: 1px solid #FFFFFF;
+				text-align: center;
+				line-height: 40px;
+				cursor: pointer;
+			}
+			#trace_ul ul li:last-child{border:none;}
+			#trace_ul ul li.change{
+				color: #333333;
+				background: #FFFFFF;
+			}
+			#trace_content{
+				width: 100%;
+				height: 560px;
+				overflow: hidden;
+			}
+			#trace_content div{
+				width: 100%;
+				height: 560px;
+				background: green;
+			}
+			.cool{
+				margin:40px;
+			}
+			
+			#test{
+				width:400px;
+				height:200px;
+				background:red;
+				color:#FFFFFF;
+				display: none;
+				margin-top:40px;
+			}
+		</style>
+		
+		
+	</head>
+		
+	<body>
+		<div class="cool">
+			<input type="text" id="searchStartTime" class="Wdate" onclick="showdate1()">
+		</div>
+		<div class="cool tab"></div>
+		
+		<div class="cool" id="permissiontree"></div>
+		
+		<div id="d1" class="tmui-tips main" style="width:80px;height:30px;margin:100px auto;background:green;color:#000;" tip="tip tip tip tip">点击事件</div>
+		<div id="d2" class="cool" style="width:80px;height:30px;margin:100px auto;background:green;color:#000;">点击事件</div>
+		<div id="d3" class="tmui-tips main" style="width:80px;height:30px;margin:100px auto;background:green;color:#000;" tip="hover事件">hover事件</div>
+
+		<div class="main test" style="margin:10px auto;width:200px;">
+			<div class="slider"></div>
+		</div>
+
+		<div class="main test" style="margin:0 100px;height:200px;">
+			<div class="slider2"></div>
+		</div>
+		
+		<div class="cool" id="show"></div>
+		
+		<div class="cool">
+			<img src="images/01.jpg" width="604" height="304" id="img">
+		</div>
+		
+		<div class="main prompt"></div>
+		
+		<div class="cool" id="trace_tab">
+			<div id="trace_ul">
+				<ul>
+					<li class="change">111</li>
+					<li>222</li>
+					<li>333</li>
+					<li>444</li>
+					<li>111</li>
+					<li>222</li>
+					<li>333</li>
+					<li>444</li>
+				</ul>
+			</div>
+			<div id="trace_content">
+				<div class="trace_content">33333</div>
+				<div class="trace_content">44444</div>
+				<div class="trace_content">55555</div>
+				<div class="trace_content">66666</div>
+			</div>
+		</div>
+		
+		<div class="cpage"></div>
+		
+		<div id="test" class="">
+			这是一个测试页面
+		</div>
+		
+		<script type="text/javascript">
+			/*===================日历组件的调用========================*/
+			function showdate1(){
+				 WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});
+			}
+			function showdate2(){
+				 WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'});
+			}
+			
+			/*====================tab组件的调用=========================*/
+			var oDiv = document.getElementById("trace_ul");
+			var aLi = oDiv.getElementsByTagName("li");
+			var oCdiv = document.getElementById("trace_content");
+			var aDiv = oCdiv.getElementsByTagName("div");
+			
+			for (var i=0; i<aLi.length; i++) {
+				aLi[i].index = i;
+				aLi[i].onclick = function(){
+					for(var j=0; j<aLi.length; j++){
+						aLi[j].className = "";
+					}
+					for(var m=0; m<aDiv.length; m++){
+						aDiv[m].style.display = "none";
+					}
+					this.className = "change";
+					aDiv[this.index].style.display = "block";
+				}
+			}
+			$(".tab").tzTab({
+					index:0,
+					tabDatas:[
+						{title:"11111",content:"<img src='images/01.jpg' id='img'>",url:"www.baidu.com"},
+						{title:"22222",content:"bbbbb","url":"user.action"},
+						{title:"22222",content:"ddddd"},
+						{title:"33333",content:"ccccc"}
+					],
+					callback:function($current,$content){
+						console($current.html());
+					}
+				});
+			$(".tab").children("input:first-child")
+			
+			/*===================tab组件的调用========================*/
+			$(function(){
+				
+				$(".tmui-tips").tmTip({event:"click"});
+				
+				$("#d2").click(function(){
+					loading("111111...",3);
+				});
+				
+				$("#d3").tmTip();
+				
+				$(".tab").tzTab({
+					index:0,
+					tabDatas:[
+						{title:"11111",content:"<img src='images/01.jpg' id='img'>",url:"www.baidu.com"},
+						{title:"22222",content:"bbbbb","url":"user.action"},
+						{title:"22222",content:"ddddd"},
+						{title:"33333",content:"ccccc"}
+					]
+				});
+				$(".tab").tzTab({
+					index:3,
+					tabDatas:[
+						{title:"11111",content:"<img src='images/01.jpg' id='img'>",url:"www.baidu.com"},
+						{title:"22222",content:"bbbbb","url":"user.action"},
+						{title:"22222",content:"ddddd"},
+						{title:"33333",content:"rrrrr"}
+					]
+				});
+				
+				/*=====================滑块组件的调用=======================*/
+				$(".slider").tzSlider({horizontal:false});
+				$(".slider2").tzSlider({horizontal:true});
+
+				/*=====================弹出层组件的调用=======================*/
+				$.tzAlert({title:"hello",content:"welcome to my page",callback:function(ok, $dialog, opts) {
+					if(ok) {
+						$dialog.next().remove();
+						tzUtil.animates($dialog,opts.animate);
+					}
+				}});
+				
+				/*===============打印组件的调用===========================*/
+				var arr = new Array(
+					"都是干啥水电工哈斯的高",
+					"阿萨德哦我感觉啊搜ID很高深的刚 ",
+					"奥我文化宫以去维护工而韩国和"
+				);
+				$.tzConsole.console("show",100,arr);
+			});
+			
+			/*================确认弹出层组件的调用=======================*/
+			$.tzConfirm({
+				width:450,
+				height:430,
+				title:"新增客户信息",
+				ghost:false, // 拖动是否产生镜像
+				icon:"",
+				content:"<ul class='predata'>"+
+				"			<li>"+
+				"				<a><span>客户编码</span><input id='cli_code' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>客户名称</span><input id='cli_name' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>联系人</span><input id='cli_people' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>联系电话</span><input id='cli_telephone' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>传真</span><input id='cli_fax' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>地址</span><input id='cli_address' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>公司</span><input id='cli_company' /></a>"+
+				"			</li>"+
+				"			<li>"+
+				"				<a><span>备注</span><input id='cli_description' /></a>"+
+				"			</li>"+
+				"		</ul>",
+				callback:function(ok, $dialog, opts){
+					if(ok){
+						if(isEmpty($("#cli_code").val())){
+							$("#cli_code").tips({
+								msg: "客户编码不能为空",
+								side: 2,
+								color: '#fff',
+								bg: '#f00',
+								time: 3,
+								x: 0
+							})
+						} else {
+							$dialog.next().remove();
+							tzUtil.animates($dialog,opts.animate);
+						}
+					}
+				}
+			});
+					
+			
+			
+			/**
+			 * 友情提示组件，从html的顶部出现
+			 * 使用方式：
+				$.topTips({
+					content:"文件删除成功！",
+					controls : "warn",
+					timer:2
+				});
+				
+				参数说明：
+				content：提示的内容
+				controls：提示样式
+					错误提示:err,
+					警告提示:warn,
+					成功提示：ok
+				timer:显示和消失总体时间
+			 * @param $
+			 */
+			$.topTips({
+				content:"文件删除成功！",
+				controls : "loading",
+				timer:2
+			});
+			
+			// 提示框组件：不加时间，默认一直显示， 点击后才会消失
+			loading("演示开始")
+			
+			// 树形菜单组件
+			$("#permissiontree").tmTree({})
+			
+			// iframe弹出层组件
+			$.tzIframe({width:320,height:400,title:"用户分配角色",ghost:false,content:"iframe.html",callback:function(iframe,$dialog,opts){
+				if(iframe){
+					console.log("hello");
+				}
+			}});
+			
+			// 分页组件
+			$(".cpage").tzPage(19, {
+					num_edge_entries : 1, //边缘页数
+					num_display_entries :4, //主体页数
+					num_edge_entries:5,
+					current_page:0,
+					showGo:true,
+					showSelect:true,
+					items_per_page : 10, //每页显示X项
+					prev_text : "前一页",
+					next_text : "后一页",
+					callback : function(pageNo,psize){//回调函数
+						//admin.loadData(pageNo,psize);
+					}
+				});
+				
+			$.ymDialog({ //删除提示
+				title : "删除提示",
+				contents : "确定要删除文件吗？",
+				success : function(){ //确定删除
+					$("#test").show().removeClass("animated bounceOutUp").addClass("animated bounceInUp");
+				}
+			});
+		</script>
+	</body>
+
+</html>

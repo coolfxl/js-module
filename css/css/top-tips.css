@@ -1,0 +1,70 @@
+@CHARSET "UTF-8";
+.cool_top_tips {
+  font-size: 14px;
+  padding: 0px 20px;
+  height: 35px;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 35px;
+  font-family: "微软雅黑", "microsoft yahei";
+  color: #fff;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  z-index: 9999999;
+  cursor: default;
+}
+/*加载中*/
+.cool_top_tip_loading,
+.cool_top_tip_ok,
+.cool_top_tip_warn,
+.cool_top_tip_err {
+  background: #86ce8b;
+  overflow: hidden;
+}
+.cool_top_tip_loading .cool_top_tip_icon {
+  width: 22px;
+  height: 22px;
+  display: inline-block;
+  background-image: url("../images/loading.gif");
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: relative;
+  top: 6px;
+}
+/*成功*/
+.cool_top_tip_ok .cool_top_tip_icon,
+.cool_top_tip_warn .cool_top_tip_icon,
+.cool_top_tip_err .cool_top_tip_icon {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  float: left;
+  background-repeat: no-repeat;
+  margin-top: 6px;
+  margin-right: 5px;
+}
+.cool_top_tip_ok .cool_top_tip_icon {
+  background-position: -290px -242px;
+}
+
+/*警告*/
+.cool_top_tip_warn {
+  background: #f3a960;
+}
+.cool_top_tip_warn .cool_top_tip_icon {
+  background-position: -324px -242px;
+}
+/*错误*/
+.cool_top_tip_err {
+  background: #ef8989;
+}
+.cool_top_tip_err .cool_top_tip_icon {
+  background-position: -255px -242px;
+}
+.cool_top_tip_icon {
+  display: inline-block;
+  background-image: url(../images/sprits.png);
+  background-repeat: no-repeat;
+}

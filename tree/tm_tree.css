@@ -1,0 +1,196 @@
+ul,ol {
+	list-style: none outside none
+}
+
+ul li {
+	padding-top: 0px
+}
+
+.tree div {
+	display: block;
+	overflow: hidden
+}
+
+.tree div,.tree a,.tree span {
+	display: inherit;
+	height: 22px;
+	line-height: 22px
+}
+
+.tree .first_collapsable {
+	background-position: 0 -250px
+}
+
+.tree .expandable {
+	background-position: 0 -100px
+}
+
+.tree div div {
+	background-position: 0 -100px;
+	border: medium none;
+	display: block;
+	float: left;
+	height: 22px;
+	overflow: hidden;
+	width: 22px
+}
+
+.tree div div {
+	background: url("tree.png") no-repeat scroll 0 0
+		transparent
+}
+
+.tree div {
+	display: block;
+	overflow: hidden
+}
+
+.tree div,.tree a,.tree span {
+	display: inherit;
+	height: 22px;
+	line-height: 22px
+}
+
+.tree .line {
+	background-position: 0 -400px
+}
+
+.tree .node {
+	background-position: 0 -450px
+}
+
+.tree .file {
+	background-position: 0 -100px
+}
+
+.tree .folder_collapsable,.tree .folder_expandable,.tree .file {
+	background: url("folder.png") no-repeat scroll 0 0
+		transparent
+}
+
+.tree li a,.tree li span {
+	color: #183152
+}
+
+.tree a,.tree a:hover {
+	text-decoration: none
+}
+
+.tree div,.tree a,.tree span {
+	display: inherit;
+	height: 22px;
+	line-height: 23px
+}
+
+.tree .file {
+	background-position: 0 -100px
+}
+
+.tree .tm-tree-checkbox,.tm-tree-checkbox-focus,.tm-tree-checkbox-checked
+	{
+	background: url("tm-tree.png") no-repeat scroll 0 0
+		transparent
+}
+
+.tree .tm-tree-radio,.tm-tree-radio-focus,.tm-tree-radio-checked {
+	background: url("tm-tree.png") no-repeat scroll 0 0
+		transparent
+}
+
+.tree .tm-tree-checkbox {
+	background-position: 0 0px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px
+}
+
+.tree .tm-tree-checkbox-focus {
+	background-position: -14px -28px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-checkbox-focus:hover {
+	background-position: -14px -42px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-checkbox-checked:hover {
+	background-position: -14px -14px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-checkbox-checked {
+	background-position: -14px 0px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-radio {
+	background-position: -28px 0px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-radio:hover {
+	background-position: -28px -14px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-radio-focus {
+	background-position: -28px -28px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-radio-focus:hover {
+	background-position: -28px -42px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-radio-checked {
+	background-position: -42px 0px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tree .tm-tree-radio-checked:hover {
+	background-position: -42px -14px;
+	width: 13px;
+	height: 13px;
+	margin: 5px 3px;
+}
+
+.tm_85C1E4 {
+	background: #85C1E4
+}
+
+.tm_ccc {
+	background: #ccc
+}
+
+/* 右键菜单样式 start */
+#tm-right-menu-box{display:none;position:absolute;width:100px;}
+#tm-right-menu-box #tm-right-menu{width:100px;border-radius:3px;list-style-type:none;border:1px solid #8f8f8f;padding:2px;background:#fff;}
+#tm-right-menu-box #tm-right-menu li{position:relative;height:24px;padding-left:24px;background:#eaead7;vertical-align:top;}
+#tm-right-menu-box #tm-right-menu li a{display:block;color:#333;background:#fff;padding-left:10px;text-decoration:none;}
+#tm-right-menu-box #tm-right-menu li a:hover{background:#b4e8ea;}
+#tm-right-menu-box #tm-right-menu li em{position:absolute;top:0;left:0;width:24px;height:24px;display:inline-block;}
+#tm-right-menu-box #tm-right-menu li em.tm-right-menu-plus{background: url("plus.png");}
+#tm-right-menu-box #tm-right-menu li em.tm-right-menu-edit{background: url("pencil.png");}
+#tm-right-menu-box #tm-right-menu li em.tm-right-menu-delete{background: url("star.png");}
+#tm-right-menu-box #tm-right-menu li em.tm-right-menu-cancel{background: url("undo.png");}
+/* end  右键菜单样式    */

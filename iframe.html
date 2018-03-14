@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.iframe{
+				width: 120px;
+				height: 100px;
+				line-height: 100px;
+				text-align: center;
+				background: yellowgreen;
+				color: #FFFFFF;
+				margin: 100px;
+			}
+			
+			/*.tm_layer*/
+			.tm-overlay {
+			  width: 100%;
+			  height: 100%;
+			  display: none;
+			  background-color: #141414;
+			  position: fixed;
+			  top: 0;
+			  left: 0;
+			  z-index: 90;
+			  filter: alpha(opacity=38);
+			  -moz-opacity: 0.38;
+			  -khtml-opacity: 0.38;
+			  opacity: 0.38;
+			}
+			
+			/*弹出提示*/
+			.tm_dialog {
+			  width: 413px;
+			  border-radius: 5px;
+			  overflow: hidden;
+			  height: auto;
+			  background: #fff;
+			  padding-bottom: 1px;
+			  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+			  font-size: 14px;
+			  font-family: "宋体", "Microsoft Yahei";
+			  position: absolute;
+			  margin: 0 auto;
+			  display: none;
+			  z-index: 100;
+			}
+			.tm_dialog .tm_title {
+			  padding: 0 10px;
+			  height: 42px;
+			  cursor: move;
+			  background: #fff;
+			  position: relative;
+			}
+			.tm_dialog .tm_title h2 {
+			  height: 42px;
+			  line-height: 42px;
+			  color: #565656;
+			  padding-left: 20px;
+			  font-size: 16px;
+			  -webkit-transition: all ease-in-out;
+			  -moz-transition: all ease-in-out;
+			  -o-transition: all ease-in-out;
+			  -ms-transition: all ease-in-out;
+			  transition: all ease-in-out;
+			  cursor: move;
+			  border-bottom: 1px solid #e8e8e8;
+			  font-family: "微软雅黑", "microsoft yahei";
+			  letter-spacing: 1px;
+			}
+			.tm_dialog .tm_title a.tm_close {
+			  display: block;
+			  width: 16px;
+			  height: 15px;
+			  background-image: url(css/images/sprits.png);
+			  background-position: -325px -28px;
+			  background-repeat: no-repeat;
+			  position: absolute;
+			  right: 14px;
+			  top: 14px;
+			}
+			.tm_dialog .tm_title a.tm_close:hover {
+			  background-position: -325px -2px;
+			}
+			.tm_dialog .tm_contents {
+			  padding: 40px 0 20px 0;
+			  width: 350px;
+			  margin: 0 auto;
+			  font-size: 18px;
+			  max-height: 100px;
+			  overflow: hidden;
+			  color: #565656;
+			  font-size: 14px;
+			  font-family: "微软雅黑", "microsoft yahei";
+			  text-align: center;
+			}
+			.tm_dialog .tm_contents .tips-title {
+			  color: #565656;
+			  font-size: 14px;
+			  font-family: "微软雅黑", "microsoft yahei";
+			  text-align: center;
+			}
+			.tm_dialog .tm_contents p span {
+			  margin-right: 10px;
+			  color: #575f6a;
+			  font-size: 14px;
+			  font-weight: bold;
+			}
+			.tm_dialog .tm-btns {
+			  width: 60%;
+			  height: 30px;
+			  margin: 20px auto;
+			  text-align: center;
+			}
+			.tm_dialog .tm-btns a {
+			  display: inline-block;
+			  font-size: 14px;
+			  font-family: "微软雅黑", "microsoft yahei";
+			  color: #fff;
+			  text-align: center;
+			  padding: 0 25px;
+			  line-height: 28px;
+			  background: #55addc;
+			  border: 1px solid #55addc;
+			  border-radius: 3px;
+			  overflow: hidden;
+			}
+			.tm_dialog .tm-btns .tm_cancel {
+			  background: #f9f9f9;
+			  color: #565656;
+			  border-color: #e8e8e8;
+			  margin-left: 10px;
+			}
+			
+			#test{
+				width:400px;
+				height:200px;
+				background:red;
+				color:#FFFFFF;
+				display: none;
+			}
+		</style>
+		<link rel="stylesheet" href="animate.min.css" />
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
+	</head>
+	<body>
+		<div class="iframe">这是iframe测试</div>		
+		<div id="shares"></div>
+		<div id="test" class=""></div>
+		<!--遮盖层-->
+		<script type="text/javascript">
+			
+			/*
+			* @version : v1.0
+			 * @author  : 饭     
+			 * @update ：    new Date()
+			 * @fn : 拖拽（封装）
+			 */
+			
+			(function($){
+				
+				/*====================dialog对话框==========================*/
+				$.ymDialog = function(options){
+					var This = this;
+					var opts = $.extend({},$.ymDialog.methods,$.ymDialog.defalutes,options);
+					//opts.inits(This,opts); //初始化
+					opts.inits(opts);
+				}
+				
+				/*方法设置*/
+				$.ymDialog.methods = {
+					
+					//初始化
+					inits:function(opts){
+						var _this = this;
+						_this.template(opts);
+					},
+					
+					dragMoves : function(obj,opts){
+						var _this = this;
+						var editTlt = obj.find(".tm_title");
+						var $closeBtn = obj.find(".tm_close");
+						var $sureBtn = obj.find(".tm_sure");
+						var $cancleBtn = obj.find(".tm_cancel");
+						$closeBtn.off("mousedown").on("mousedown",_this.cancleEvent(obj));//关闭
+						$cancleBtn.off("click").on("click",_this.cancleEvent(obj));//取消
+						$sureBtn.off("click").on("click",function(){ //确定
+							var timer = setTimeout(function(){
+								opts.success && opts.success();
+								clearTimeout(timer);
+							},500);
+							_this.cancleEvent(obj)();
+						});
+						
+						if(opts.isDrag){
+							editTlt.on("mousedown",function(ev){
+								var ev = ev || window.event;
+								var oldX = ev.clientX;
+								var oldY = ev.clientY;
+								var _left = obj.offset().left;
+								var _top = obj.offset().top;
+								var width = obj.width();
+								var height = obj.height();
+								var scrollLeft = $(window).scrollLeft();
+								var scrollTop = $(window).scrollTop();
+								var dottedPanel = $("<div></div>");
+								dottedPanel.css({
+									"width":width,
+									"height":height,
+									"position":"fixed",
+									"overflow":"hidden",
+									"border-radius":"3px",
+									"left":_left-scrollLeft-2,
+									"top":_top-scrollTop-2,
+									"cursor":"move",
+									"zIndex":"12",
+									"border":"2px dashed #ccc"
+								});
+								$("body").append(dottedPanel);
+								
+								var maxLeft = $(window).width()-width;
+								var maxTop = $(window).height()-height;
+								var isFlag = true;
+								
+								$(document).on("mousemove",dragMove);
+								$(document).on("mouseup",dragUp);
+								
+								function dragMove(ev){ //移动
+									if(isFlag){
+										var e = ev || window.event;
+										var newX = e.clientX;
+										var newY = e.clientY;
+										var newdisx = Math.abs(newX - oldX);
+										var newdisy = Math.abs(newY - oldY);
+										if(newdisx >=10 || newdisy >=10){
+											var newLeft = newX - oldX + _left - scrollLeft; 
+											var newTop = newY - oldY + _top - scrollTop;
+											if(newLeft<=0)newLeft=0;
+											if(newTop<=0)newTop=0;
+											if(newLeft>maxLeft)newLeft = maxLeft;
+											if(newTop>maxTop)newTop = maxTop;
+											dottedPanel.css({"left":newLeft,"top":newTop});	
+										}
+									}
+								}
+								
+								function dragUp(ev){
+									var resulteLeft = dottedPanel.offset().left;
+									var resulteTop = dottedPanel.offset().top;
+									dottedPanel.remove();
+									if(resulteLeft == _left-scrollLeft-2 && resulteTop == _top-scrollTop-2)dottedPanel.remove();
+									else if(resulteLeft == 0 && resulteTop == 0)return false;
+									else{
+										if(resulteLeft <= 0)resulteLeft = 0;
+										if(resulteTop <= 0)resulteTop = 0;
+										var scrollLeft = $(window).scrollLeft();
+										var scrollTop = $(window).scrollTop();
+										obj.animate({"left":resulteLeft-scrollLeft+2,"top":resulteTop-scrollTop+2},300);
+									}
+									isFlag = false;
+									$(document).off("mousedown");
+									$(document).off("mouseup");
+								}
+								return false;
+							});
+						}
+					},
+					
+					//窗口改变，继续居中
+					resize:function(obj){
+						var _this = this;
+						$(window).on("resize",function(){
+							_this.getCenter(obj,true);
+						})
+					},
+					
+					//事件取消
+					cancleEvent : function(obj){
+						return function(){
+							obj.removeClass("animated bounceInUp").addClass("animated bounceOutUp");
+							$("#tm-overlay").fadeOut();
+							setTimeout(function(){
+								obj.remove();
+								$("#tm-overlay").remove();
+							},400);
+							return false;
+						}
+					},
+					
+					//居中
+					getCenter:function(obj,state){
+						var height = obj.height();
+						var width = obj.width();
+						var winW = $(window).width();
+						var winH = $(window).height();
+						var left = (winW - width)/2;
+						var top =  (winH - height)/2;
+						if(!state){
+							obj.css({"left":left,"top":top});
+						}else{
+							obj.stop(true,true).animate({"left":left,"top":top});
+						}
+					},
+					template : function(opts){
+						
+						var tm_dialog = $("#tm_dialog");
+						var coverlayer = $("#tm-overlay");
+						if(tm_dialog.html() === undefined){
+							tm_dialog = $(
+								"<div class='tm_dialog' id='tm_dialog'>"+
+								"			<div class='tm_title'>"+
+								"				<h2 id='tm_title'>"+opts.title+"</h2>"+
+								"				<a href='javascript:void(0)' class='tm_close'></a>"+
+								"			</div>"+
+								"			<div class='tm_contents'>"+
+								"			<p class='tips-title'>"+opts.contents+"</p>"+
+								"			</div>"+
+								"			<div class='tm-btns'>"+
+								"				<a href='javascript:void(0)' class='tm_sure'>确认</a>"+
+								"				<a href='javascript:void(0)' class='tm_cancel'>取消</a>"+
+								"			</div>"+
+								"</div>"
+							);
+							coverlayer = $("<div class='tm-overlay' id='tm-overlay'></div>");
+							$("body").append(tm_dialog);
+							$("body").append(coverlayer);
+							this.getCenter(tm_dialog);
+							coverlayer.stop().fadeIn();
+							tm_dialog.show().removeClass("animated bounceOutUp").addClass("animated bounceInUp");
+							this.resize(tm_dialog);
+							this.dragMoves(tm_dialog,opts);
+						}else{
+							coverlayer.stop().fadeIn();
+							tm_dialog.find("#tm_title").html(opts.title);
+							tm_dialog.find(".tips-title").html(opts.contents);
+							tm_dialog.show().removeClass("animated bounceOutUp").addClass("animated bounceInUp");
+						}
+						
+						return tm_dialog;
+					}
+				};
+				
+				//可配置的信息 
+				$.ymDialog.defalutes = {
+					/*isDrag : true, //是否可以拖拽，默认true
+					closeBtn : $(".tm_close"),//配置关闭按钮
+					suerBtn : $(".tm_sure"),
+					cancleBtn : $(".tm_cancel"),
+					success : function(){}*/
+					
+					isDrag : true,
+					title : "标题",
+					contents : "这里是内容",
+					success : function(){}
+					
+				};
+				
+				
+				/*=================drags拖拽框===================*/
+				$.fn.ymDrags = function(options){
+					var This = this;
+					var opts = $.extend({},$.fn.ymDrags.methods,$.fn.ymDrags.defalutes,options);
+					opts.inits(This,opts); //初始化
+				}
+				
+				/*方法设置*/
+				$.fn.ymDrags.methods = {
+					
+					//初始化
+					inits:function(obj,opts){
+						this.getCenter(obj);
+						obj.show().removeClass("animated bounceOutUp").addClass("animated bounceInUp");
+						this.resize(obj);
+						this.dragMoves(obj,opts);
+					},
+					
+					dragMoves : function(obj,opts){
+						var _this = this;
+						var editTlt = obj.children("div").eq(0);
+						var $closeBtn = obj.find(opts.closeBtn);
+						var $sureBtn = obj.find(opts.suerBtn);
+						var $cancleBtn = obj.find(opts.cancleBtn);
+						$closeBtn.off("mousedown").on("mousedown",_this.cancleEvent(obj,opts));//关闭
+						$cancleBtn.off("click").on("click",_this.cancleEvent(obj,opts));//取消
+						$sureBtn.off("click").on("click",function(){ //确定
+							opts.callback && opts.callback();
+							$cancleBtn.trigger("click");
+						});
+						
+						if(opts.isDrag){
+							editTlt.on("mousedown",function(ev){
+								var ev = ev || window.event;
+								var oldX = ev.clientX;
+								var oldY = ev.clientY;
+								var _left = obj.offset().left;
+								var _top = obj.offset().top;
+								var width = obj.width();
+								var height = obj.height();
+								var scrollLeft = $(window).scrollLeft();
+								var scrollTop = $(window).scrollTop();
+								var dottedPanel = $("<div></div>");
+								dottedPanel.css({
+									"width":width,
+									"height":height,
+									"position":"fixed",
+									"overflow":"hidden",
+									"border-radius":"3px",
+									"left":_left-scrollLeft-2,
+									"top":_top-scrollTop-2,
+									"cursor":"move",
+									"zIndex":"12",
+									"border":"2px dashed #ccc"
+								});
+								$("body").append(dottedPanel);
+								
+								var maxLeft = $(window).width()-width;
+								var maxTop = $(window).height()-height;
+								var isFlag = true;
+								
+								$(document).on("mousemove",dragMove);
+								$(document).on("mouseup",dragUp);
+								
+								function dragMove(ev){ //移动
+									if(isFlag){
+										var e = ev || window.event;
+										var newX = e.clientX;
+										var newY = e.clientY;
+										var newdisx = Math.abs(newX - oldX);
+										var newdisy = Math.abs(newY - oldY);
+										if(newdisx >=10 || newdisy >=10){
+											var newLeft = newX - oldX + _left - scrollLeft; 
+											var newTop = newY - oldY + _top - scrollTop;
+											if(newLeft<=0)newLeft=0;
+											if(newTop<=0)newTop=0;
+											if(newLeft>maxLeft)newLeft = maxLeft;
+											if(newTop>maxTop)newTop = maxTop;
+											dottedPanel.css({"left":newLeft,"top":newTop});	
+										}
+									}
+								}
+								
+								function dragUp(ev){
+									var resulteLeft = dottedPanel.offset().left;
+									var resulteTop = dottedPanel.offset().top;
+									dottedPanel.remove();
+									if(resulteLeft == _left-scrollLeft-2 && resulteTop == _top-scrollTop-2)dottedPanel.remove();
+									else if(resulteLeft == 0 && resulteTop == 0)return false;
+									else{
+										if(resulteLeft <= 0)resulteLeft = 0;
+										if(resulteTop <= 0)resulteTop = 0;
+										var scrollLeft = $(window).scrollLeft();
+										var scrollTop = $(window).scrollTop();
+										obj.animate({"left":resulteLeft-scrollLeft+2,"top":resulteTop-scrollTop+2},300);
+									}
+									isFlag = false;
+									$(document).off("mousedown");
+									$(document).off("mouseup");
+								}
+								return false;
+							});
+						}
+					},
+					
+					//窗口改变，继续居中
+					resize:function(obj){
+						var _this = this;
+						$(window).on("resize",function(){
+							_this.getCenter(obj,true);
+						})
+					},
+					
+					//事件取消
+					cancleEvent : function(obj,opts){
+						return function(){
+							obj.removeClass("animated bounceInUp").addClass("animated bounceOutUp");
+							setTimeout(function(){
+								obj.hide();
+							},400);
+							opts.closeFn && opts.closeFn();
+							return false;
+						}
+					},
+					
+					//居中
+					getCenter:function(obj,state){
+						var height = obj.height();
+						var width = obj.width();
+						var winW = $(window).width();
+						var winH = $(window).height();
+						var left = (winW - width)/2;
+						var top =  (winH - height)/2;
+						if(!state){
+							obj.css({"left":left,"top":top});
+						}else{
+							obj.stop(true,true).animate({"left":left,"top":top});
+						}
+					}
+				};
+				
+				//可配置的信息 
+				$.fn.ymDrags.defalutes = {
+					isDrag : true, //是否可以拖拽，默认true
+					closeBtn : $(".tm_close"),//配置关闭按钮
+					suerBtn : $(".tm_sure"),
+					cancleBtn : $(".tm_cancel"),
+					closeFn : function(){},//其他方法，【不一定成功回调，比如：在窗口关闭的时候，同时触发其他操作】
+					callback : function(){}
+				};
+					
+			})(jQuery);
+			
+			$.ymDialog({ //删除提示
+				title : "删除提示",
+				contents : "确定要删除文件吗？",
+				success : function(){ //确定删除
+					$("#test").show().removeClass("animated bounceOutUp").addClass("animated bounceInUp");
+					$("#test").ymDrags({
+						isDrag : true, //是否可以拖拽，默认true
+						callback: function() {
+							console.log(121212);
+						}
+					})
+				}
+			});
+		</script>
+	</body>
+</html>
